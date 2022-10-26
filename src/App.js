@@ -4,6 +4,7 @@ import "./App.css";
 import Data from "./contacts.json";
 
 const contacts = Data.slice(0, 5);
+Data.splice(0, 5);
 console.log(contacts);
 
 function App() {
@@ -22,10 +23,45 @@ function App() {
     console.log(Data);
   }
 
+  function sortByName() {
+    const newArray = updateContacts.map((contact) => {
+      return contact;
+    });
+    console.log("NOT SORTED: ", newArray);
+    newArray.sort((a, b) => {
+      const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+      const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+    setUpdateContacts(newArray);
+    console.log("SORTED : ", newArray);
+  }
+
+  function sortByNumber() {
+    const newArray = updateContacts.map((contact) => {
+      return contact;
+    });
+    console.log("NOT SORTED: ", newArray);
+
+    newArray.sort((a, b) => a.popularity - b.popularity);
+    setUpdateContacts(newArray);
+    console.log("SORTED : ", newArray);
+  }
+
   return (
     <div className="App">
       <h1> IronContacts</h1>
       <button onClick={addRandomContact}>Contact</button>
+      <button onClick={sortByName}> Sort by Name</button>
+      <button onClick={sortByNumber}> Sort by Number</button>
       <table>
         <tr>
           <td>Picture</td>
