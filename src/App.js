@@ -16,7 +16,7 @@ function App() {
     });
 
     let randomNum = ~~(Math.random() * Data.length);
-
+    console.log("MATHRANDOM : ", randomNum);
     newArray.push(Data[randomNum]);
     Data.splice(randomNum, 1);
     setUpdateContacts(newArray);
@@ -51,15 +51,24 @@ function App() {
     });
     console.log("NOT SORTED: ", newArray);
 
-    newArray.sort((a, b) => a.popularity - b.popularity);
+    newArray.sort((a, b) => -(a.popularity - b.popularity));
     setUpdateContacts(newArray);
     console.log("SORTED : ", newArray);
+  }
+
+  function deleteContact(id) {
+    console.log("ID TO DELETE ", id);
+    const newArray = updateContacts.filter((contact) => {
+      if (contact.id == id) Data.push(contact);
+      return contact.id != id;
+    });
+    setUpdateContacts(newArray);
   }
 
   return (
     <div className="App">
       <h1> IronContacts</h1>
-      <button onClick={addRandomContact}>Contact</button>
+      <button onClick={addRandomContact}>Add Contact</button>
       <button onClick={sortByName}> Sort by Name</button>
       <button onClick={sortByNumber}> Sort by Number</button>
       <table>
@@ -80,6 +89,15 @@ function App() {
               <td>{contact.popularity}</td>
               <td>{contact.wonOscar ? "🏆" : ""}</td>
               <td>{contact.wonEmmy ? " 🏆" : ""}</td>
+              <td>
+                <button
+                  onClick={() => {
+                    deleteContact(contact.id);
+                  }}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           );
         })}
